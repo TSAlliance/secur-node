@@ -2,15 +2,17 @@ import { SecurClient } from "./securClient";
 import {
   SecurAccountNotFoundError,
   SecurInvalidSessionError,
+  SecurUnauthorizedError,
 } from "./securError";
-import { SecurErrorHandler } from "./securErrorHandler";
 import { SecurMember, SecurRole } from "./securMember";
+import { SecurUserDetailsService } from "./securUserDetailsService";
 
 export {
   SecurMember,
+  SecurRole,
   SecurClient,
   SecurAccountNotFoundError,
   SecurInvalidSessionError,
-  SecurRole,
-  SecurErrorHandler,
+  SecurUnauthorizedError,
+  SecurUserDetailsService,
 };

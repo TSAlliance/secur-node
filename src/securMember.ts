@@ -1,3 +1,6 @@
+import { UserDetails } from "alliance-sdk/lib/auth/userDetails";
+import { ApiError } from "alliance-sdk/lib/error/apiError";
+
 export class SecurRole {
   public uuid: string;
   public rolename: string;
@@ -5,11 +8,23 @@ export class SecurRole {
   public hierarchy: number;
 }
 
-export class SecurMember {
+export class SecurMember implements UserDetails {
   public uuid: string;
   public username: string;
   public email: string;
   public role: SecurRole;
+
+  public isAuthenticated: boolean;
+  public authenticationError?: ApiError;
+  public roleId: string;
+
+  constructor(member: SecurMember) {
+    this.uuid = member.uuid;
+    this.username = member.username;
+    this.email = member.email;
+    this.roleId = member.roleId;
+    this.role = member.role;
+  }
 
   /**
    * Check if member has a permission
@@ -23,5 +38,9 @@ export class SecurMember {
       this.role.permissions.includes("*") ||
       this.role.permissions.includes(permission)
     );
+  }
+
+  public getHierarchy(): number {
+    return this.role?.hierarchy;
   }
 }

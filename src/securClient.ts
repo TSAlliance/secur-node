@@ -1,51 +1,70 @@
-import { AllianceSDK, ApiError } from "alliance-sdk";
-import { AllianceConfig, AllianceRouteMethod } from "alliance-sdk/lib/request";
-import { ClientNetworkError } from "alliance-sdk/lib/errors";
-
+import { ApiError } from "alliance-sdk";
+import axios, { AxiosResponse } from "axios";
+import { ClientNetworkError } from "alliance-sdk/lib/error/errors";
 import { SecurMember } from "./securMember";
 import {
   SecurAccountNotFoundError,
-  SecurInvalidSessionError,
+  SecurUnauthorizedError,
 } from "./securError";
 
-const ALLIANCE_SDK_INSTANCE = "securAllianceSDKInstance";
+export interface SecurConfig {
+  protocol: string;
+  host: string;
+  port: number;
+  path?: string;
+}
 
 export class SecurClient {
-  public static init(config: AllianceConfig) {
-    AllianceSDK.createInstance(ALLIANCE_SDK_INSTANCE, config);
+  private static _config: SecurConfig;
+
+  public static init(config: SecurConfig) {
+    this._config = config;
   }
 
-  /**
-   * Load client's data
-   * @returns Promise of type SecurMember
-   */
-  public static async login(): Promise<SecurMember> {
+  public static async loginWithToken(token: string): Promise<SecurMember> {
+    if (!this._config) {
+      throw new Error(
+        "SecurClient was never initted. Therefor no config is present which is needed for the client to work. Please init SecurClient using SecurClient.init() first."
+      );
+    }
+
     return new Promise((resolve, reject) => {
-      AllianceSDK.getInstance(ALLIANCE_SDK_INSTANCE)
-        .request<SecurMember>({
-          method: AllianceRouteMethod.GET,
-          path: "/members/:id",
-          params: {
-            id: "@me",
+      axios
+        .get("/members/@me", {
+          headers: {
+            Authorization: "Bearer " + token,
           },
-          authRequired: true,
+          baseURL:
+            this._config.protocol +
+            "://" +
+            this._config.host +
+            ":" +
+            this._config.port +
+            this._config.path,
         })
-        .perform()
-        .then((member) => {
-          resolve(member);
+        .then((value: AxiosResponse<SecurMember>) => {
+          if (value.status != 200) {
+            reject(value.data);
+          } else {
+            resolve(value.data);
+          }
         })
-        .catch((error: ApiError) => {
-          if (error.statusCode) {
-            if (error.statusCode == 404) {
+        .catch((reason) => {
+          if (reason.response) {
+            const response: AxiosResponse<ApiError> = reason.response;
+
+            if (response.status == 404) {
               reject(new SecurAccountNotFoundError());
+            } else if (response.status == 403) {
+              reject(new SecurUnauthorizedError());
             } else {
-              reject(new SecurInvalidSessionError());
+              reject(response.data as ApiError);
             }
           } else {
-            if (error.message == "Network Error") {
+            if (reason.message == "Network Error") {
               reject(new ClientNetworkError());
             } else {
-              reject(error);
+              reject(reason as ApiError);
             }
           }
         });

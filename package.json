@@ -1,6 +1,6 @@
 {
   "name": "secur-node",
-  "version": "1.0.1",
+  "version": "1.0.10",
   "description": "Alliance Secur client lib for nodejs applications",
   "main": "lib/index.js",
   "scripts": {
@@ -11,7 +11,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "alliance-sdk": "^1.0.2",
+    "alliance-sdk": "^1.0.4",
     "uuid": "^8.3.2"
   },
   "devDependencies": {

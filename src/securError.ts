@@ -2,7 +2,7 @@ import { ApiError } from "alliance-sdk";
 
 export class SecurAccountNotFoundError extends ApiError {
   constructor() {
-    super("Dein Konto existiert nicht.", 404, "SECUR_ACCOUNT_MISSING");
+    super("Your account could not be found.", 404, "SECUR_ACCOUNT_MISSING");
   }
 }
 
@@ -13,5 +13,17 @@ export class SecurInvalidSessionError extends ApiError {
       403,
       "SECUR_INVALID_SESSION"
     );
+  }
+}
+
+export class SecurUnauthorizedError extends ApiError {
+  constructor() {
+    super("You need to authenticate", 403, "SECUR_UNAUTHORIZED_ERROR");
+  }
+}
+
+export class SecurSessionExpiredError extends ApiError {
+  constructor() {
+    super("Your session has expired", 403, "SECUR_SESSION_EXPIRED");
   }
 }
