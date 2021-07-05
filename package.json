@@ -1,6 +1,6 @@
 {
   "name": "secur-node",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "description": "Alliance Secur client lib for nodejs applications",
   "main": "lib/index.js",
   "scripts": {
