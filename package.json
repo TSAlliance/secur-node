@@ -1,17 +1,17 @@
 {
-  "name": "secur-node",
-  "version": "1.0.11",
+  "name": "@tsalliance/secur-node",
+  "version": "1.0.1",
   "description": "Alliance Secur client lib for nodejs applications",
   "main": "lib/index.js",
   "scripts": {
-    "package-publish": "npm run build && npm version patch --no-git-tag-version && npm publish",
+    "package-publish": "npm run build && npm version patch --no-git-tag-version && npm publish --access public",
     "build": "npm run format && tsc",
     "format": "prettier --write \"src/**/*.ts\""
   },
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "alliance-sdk": "^1.0.4",
+    "@tsalliance/sdk": "^1.0.1",
     "uuid": "^8.3.2"
   },
   "devDependencies": {

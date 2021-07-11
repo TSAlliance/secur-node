@@ -1,6 +1,6 @@
-import { ApiError } from "alliance-sdk";
+import { ApiError } from "@tsalliance/sdk";
 import axios, { AxiosResponse } from "axios";
-import { ClientNetworkError } from "alliance-sdk/lib/error/errors";
+import { ClientNetworkError } from "@tsalliance/sdk/lib/error/errors";
 import { SecurMember } from "./securMember";
 import {
   SecurAccountNotFoundError,

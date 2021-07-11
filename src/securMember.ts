@@ -1,5 +1,5 @@
-import { UserDetails } from "alliance-sdk/lib/auth/userDetails";
-import { ApiError } from "alliance-sdk/lib/error/apiError";
+import { UserDetails } from "@tsalliance/sdk";
+import { ApiError } from "@tsalliance/sdk";
 
 export class SecurRole {
   public uuid: string;

@@ -1,7 +1,7 @@
-import { ApiError } from "alliance-sdk";
-import { ResolvedUserId, UserDetails } from "alliance-sdk/lib/auth/userDetails";
-import { UserDetailsService } from "alliance-sdk/lib/auth/userDetailsService";
+import { ApiError, UserDetails, UserDetailsService } from "@tsalliance/sdk";
+import { ResolvedUserId } from "@tsalliance/sdk/lib/auth/userDetails";
 import { SecurClient } from "./securClient";
+
 import {
   SecurAccountNotFoundError,
   SecurSessionExpiredError,
